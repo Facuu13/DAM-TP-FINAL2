@@ -37,6 +37,7 @@ export class HomePage implements OnInit {
   }
 
   mostrarSensor(idDispositivo: number){
+    this.mostrarTablaMediciones = false; 
     this.dispositvoSeleccionado = idDispositivo;
     this.servicio.getMediciones().subscribe((data: any) => {
       this.listaMediciones = data;
