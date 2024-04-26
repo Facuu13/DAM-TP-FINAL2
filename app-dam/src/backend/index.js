@@ -8,6 +8,9 @@ var express = require('express');
 var app = express();
 var pool = require('./mysql-connector');
 const routerDispositivo = require('./routes/dispositivos')
+const routerElectrovalvulas = require('./routes/electrovalvulas')
+const routerMediciones = require('./routes/mediciones')
+const routerLogRiegos = require('./routes/logriegos')
 
 
 const corsOptions = {
@@ -34,7 +37,13 @@ app.use(express.static('/home/node/app/static/'));
 app.use(cors(corsOptions))
 app.use(myLogger)
 
-app.use('/dispositivo', routerDispositivo)
+app.use('/dispositivos', routerDispositivo)
+
+app.use('/electrovalvulas', routerElectrovalvulas)
+
+app.use('/mediciones', routerMediciones)
+
+app.use('/logriegos', routerLogRiegos)
 
 //=======[ Main module code ]==================================================
 

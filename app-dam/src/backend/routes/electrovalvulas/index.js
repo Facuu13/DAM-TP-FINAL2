@@ -1,11 +1,10 @@
 const express = require('express')
 const pool = require('../../mysql-connector')
 
-const routerDispositivo = express.Router()
+const routerElectrovalvulas = express.Router()
 
-//metodo para obtener un dispositivo especifico
-routerDispositivo.get('/', function (req, res) {
-    pool.query('Select * from Dispositivos', function(err, result, fields) {
+routerElectrovalvulas.get('/', function (req, res) {
+    pool.query('Select * from Electrovalvulas', function(err, result, fields) {
         if (err) {
             res.send(err).status(400);
             return;
@@ -15,9 +14,9 @@ routerDispositivo.get('/', function (req, res) {
 })
 
 // metodo para obtener un dispositivo especifico
-routerDispositivo.get('/:id', function (req, res) {
+routerElectrovalvulas.get('/:id', function (req, res) {
     console.log("id",req.params.id)
-    pool.query("Select * from Dispositivos where dispositivoID="+req.params.id, function(err, result, fields) {
+    pool.query("Select * from Electrovalvulas where electrovalvulaId="+req.params.id, function(err, result, fields) {
         if (err) {
             res.send(err).status(400);
             return;
@@ -26,5 +25,4 @@ routerDispositivo.get('/:id', function (req, res) {
     });
 })
 
-
-module.exports = routerDispositivo
+module.exports = routerElectrovalvulas
