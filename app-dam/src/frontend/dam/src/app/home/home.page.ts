@@ -19,6 +19,7 @@ export class HomePage implements OnInit {
   isLoading: boolean = false;
   mostrarGrafico: boolean = false;
   dispositvoSeleccionado!: number;
+  abiertoElectrovalvula: boolean = false;
 
   mostrarTablaMediciones = false;
   
@@ -53,7 +54,10 @@ export class HomePage implements OnInit {
   }
 
   switchElectrovalvula() {
-    console.log("abrir o cerrar electrovalvula");
+    this.abiertoElectrovalvula = !this.abiertoElectrovalvula; // Cambiar el estado de la electrovalvula
+    const estado = this.abiertoElectrovalvula ? 'abierto' : 'cerrado';
+    console.log(`Electrovalvula ${estado}`);
+
   }
 
   verMediciones(idDispositivo: number) {

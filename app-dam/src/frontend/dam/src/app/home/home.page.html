@@ -30,9 +30,9 @@
      <ion-label>Grafico del dispositivo {{dispositvoSeleccionado}}</ion-label>
     </ion-card-header>
     <ion-card-content>
- <ion-button (click)="switchElectrovalvula()" expand="block" fill="clear" shape="round">
-      Abrir electrovalvula
-    </ion-button>
+      <ion-button (click)="switchElectrovalvula()" expand="block" fill="clear" shape="round">
+        {{ abiertoElectrovalvula ? 'Cerrar electrovalvula' : 'Abrir electrovalvula' }}
+      </ion-button>
      <ion-button (click)="verMediciones(dispositvoSeleccionado); mostrarTabla()" expand="block" fill="clear" shape="round">
       Ver todas las mediciones
     </ion-button>
