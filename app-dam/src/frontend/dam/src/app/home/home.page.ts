@@ -20,6 +20,8 @@ export class HomePage implements OnInit {
   mostrarGrafico: boolean = false;
   dispositvoSeleccionado!: number;
 
+  mostrarTablaMediciones = false;
+  
   constructor(private servicio: DispositivoService, private http: HttpClient) {}
 
   ngOnInit(){
@@ -62,6 +64,11 @@ export class HomePage implements OnInit {
     });
     console.log("ver mediciones");
   }
+
+  // Función para mostrar las mediciones en una tabla
+mostrarTabla() {
+  this.mostrarTablaMediciones = true;
+}
 
   verLogs() {
     console.log("ver logs");

@@ -33,7 +33,7 @@
  <ion-button (click)="switchElectrovalvula()" expand="block" fill="clear" shape="round">
       Abrir electrovalvula
     </ion-button>
-     <ion-button (click)="verMediciones(dispositvoSeleccionado)" expand="block" fill="clear" shape="round">
+     <ion-button (click)="verMediciones(dispositvoSeleccionado); mostrarTabla()" expand="block" fill="clear" shape="round">
       Ver todas las mediciones
     </ion-button>
      <ion-button (click)="verLogs()" expand="block" fill="clear" shape="round">
@@ -41,6 +41,25 @@
     </ion-button>
     </ion-card-content>
   </ion-card>
+
+ <!-- Mostrar tabla de mediciones si se activa la variable mostrarTablaMediciones -->
+<ion-card *ngIf="mostrarTablaMediciones">
+  <ion-card-content>
+    <ion-grid>
+      <!-- Cabecera de la tabla -->
+      <ion-row>
+        <ion-col>Fecha</ion-col>
+        <ion-col>Medición</ion-col>
+      </ion-row>
+      <!-- Filas de la tabla -->
+      <ion-row *ngFor="let medicion of listaMediciones">
+        <ion-col>{{ medicion.fecha }}</ion-col>
+        <ion-col>{{ medicion.valor }}</ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-card-content>
+</ion-card>
+
 
 </ion-content>
 

@@ -22,6 +22,12 @@ export class DispositivoService {
     }))
   }
 
+  getElectrovalvulas (): Observable<any>  {
+    return this._http.get('http://localhost:8000/electrovalvulas').pipe(map((data : any)=> {
+        return data;
+    }))
+  }
+
   getLogs (): Observable<any>  {
     return this._http.get('http://localhost:8000/logriegos').pipe(map((data : any)=> {
         return data;
