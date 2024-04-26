@@ -27,4 +27,26 @@ routerLogRiegos.get('/:id', function (req, res) {
     });
 })
 
+// Método para agregar un nuevo registro de log de riego
+routerLogRiegos.put('/', function (req, res) {
+    const { apertura, fecha, electrovalvulaId } = req.body;
+
+    // Verificar si los datos requeridos están presentes
+    if (!apertura || !fecha || !electrovalvulaId) {
+        res.status(400).send("Faltan campos requeridos");
+        return;
+    }
+
+    // Realizar la inserción en la base de datos
+    pool.query("INSERT INTO Log_Riegos (apertura, fecha, electrovalvulaId) VALUES (?, ?, ?)", 
+        [apertura, fecha, electrovalvulaId], 
+        function(err, result, fields) {
+            if (err) {
+                res.status(500).send(err.message);
+                return;
+            }
+            res.status(201).send("Registro de log de riego agregado exitosamente");
+        });
+});
+
 module.exports = routerLogRiegos
