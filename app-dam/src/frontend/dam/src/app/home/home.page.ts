@@ -39,7 +39,8 @@ export class HomePage implements OnInit {
     this.servicio.getMediciones().subscribe((data: any) => {
       this.listaMediciones = data;
       this.listaMediciones = this.listaMediciones.filter(m => m.dispositivoId === idDispositivo);
-      console.log(this.listaMediciones)
+      const ultimoElemento = this.listaMediciones[this.listaMediciones.length - 1];
+      console.log("el ultimo valor medido es: ",ultimoElemento.valor)
       this.generarGrafico();
       this.mostrarGrafico = true;
     });
@@ -52,7 +53,13 @@ export class HomePage implements OnInit {
     console.log("abrir o cerrar electrovalvula");
   }
 
-  verMediciones() {
+  verMediciones(idDispositivo: number) {
+    this.dispositvoSeleccionado = idDispositivo;
+    this.servicio.getMediciones().subscribe((data: any) => {
+      this.listaMediciones = data;
+      this.listaMediciones = this.listaMediciones.filter(m => m.dispositivoId === idDispositivo);
+      console.log(this.listaMediciones)
+    });
     console.log("ver mediciones");
   }
 

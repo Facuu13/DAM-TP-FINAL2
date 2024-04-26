@@ -17,8 +17,9 @@
     <div *ngFor="let dispositivo of listaDispositivos">
       <ion-card (click)="mostrarSensor(dispositivo.dispositivoId)">
          <ion-card-header>
-        <ion-card-title>{{dispositivo.nombre}}</ion-card-title>
-           <ion-card-subtitle>Ubicación: {{dispositivo.ubicacion}}</ion-card-subtitle>
+        <ion-card-title><ion-icon name="thermometer-outline"></ion-icon> {{dispositivo.nombre}}</ion-card-title>
+           <ion-card-subtitle><ion-icon name="locate-outline"></ion-icon>
+            Ubicación: {{dispositivo.ubicacion}}</ion-card-subtitle>
       </ion-card-header>
       </ion-card>
     </div>
@@ -32,7 +33,7 @@
  <ion-button (click)="switchElectrovalvula()" expand="block" fill="clear" shape="round">
       Abrir electrovalvula
     </ion-button>
-     <ion-button (click)="verMediciones()" expand="block" fill="clear" shape="round">
+     <ion-button (click)="verMediciones(dispositvoSeleccionado)" expand="block" fill="clear" shape="round">
       Ver todas las mediciones
     </ion-button>
      <ion-button (click)="verLogs()" expand="block" fill="clear" shape="round">
