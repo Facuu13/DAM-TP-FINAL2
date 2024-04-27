@@ -20,12 +20,14 @@ export class HomePage implements OnInit {
 
   listaDispositivos: any[] = [];
   listaMediciones: any[] = [];
+  listaLogs : any[] = [];
     isLoading: boolean = false;
   mostrarGrafico: boolean = false;
   dispositvoSeleccionado!: number;
   abiertoElectrovalvula: boolean = false;
   logRiego!: LogRiego;
   mostrarTablaMediciones = false;
+  mostrarTablaLog = false;
   
   constructor(private servicio: DispositivoService, private http: HttpClient) {}
 
@@ -43,6 +45,7 @@ export class HomePage implements OnInit {
 
   mostrarSensor(idDispositivo: number){
     this.abiertoElectrovalvula = false;
+    this.mostrarTablaLog = false;
     this.mostrarTablaMediciones = false; 
     this.dispositvoSeleccionado = idDispositivo;
     this.servicio.getMediciones().subscribe((data: any) => {
@@ -108,12 +111,22 @@ export class HomePage implements OnInit {
   }
 
   // Función para mostrar las mediciones en una tabla
-mostrarTabla() {
+mostrarTablaM() {
   this.mostrarTablaMediciones = true;
 }
 
-  verLogs() {
-    console.log("ver logs");
+  verLogs(idDispositivo: number) {
+    let dispositivo = this.listaDispositivos.find(m => m.dispositivoId === idDispositivo);
+    this.servicio.getLogs().subscribe((data: any) => {
+      this.listaLogs = data;
+      this.listaLogs = this.listaLogs.filter(l => l.electrovalvulaId === dispositivo.electrovalvulaId);
+      console.log(this.listaLogs)
+    });
   }
+
+  mostrarTablaLogRiegos() {
+    this.mostrarTablaLog = true;
+  }
+  
 
 }

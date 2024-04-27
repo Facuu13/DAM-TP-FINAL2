@@ -33,10 +33,10 @@
       <ion-button (click)="switchElectrovalvula(dispositvoSeleccionado)" expand="block" fill="clear" shape="round">
         {{ abiertoElectrovalvula ? 'Cerrar electrovavula' : 'Abrir electrovalvula' }}
       </ion-button>
-     <ion-button (click)="verMediciones(dispositvoSeleccionado); mostrarTabla()" expand="block" fill="clear" shape="round">
+     <ion-button (click)="verMediciones(dispositvoSeleccionado); mostrarTablaM()" expand="block" fill="clear" shape="round">
       Ver todas las mediciones
     </ion-button>
-     <ion-button (click)="verLogs()" expand="block" fill="clear" shape="round">
+     <ion-button (click)="verLogs(dispositvoSeleccionado); mostrarTablaLogRiegos()" expand="block" fill="clear" shape="round">
       Ver los logs de Riegos
     </ion-button>
     </ion-card-content>
@@ -55,6 +55,24 @@
       <ion-row *ngFor="let medicion of listaMediciones">
         <ion-col>{{ medicion.fecha }}</ion-col>
         <ion-col>{{ medicion.valor }}</ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-card-content>
+</ion-card>
+
+<!-- Mostrar tabla de log si se activa la variable mostrarTablaLog -->
+<ion-card *ngIf="mostrarTablaLog">
+  <ion-card-content>
+    <ion-grid>
+      <!-- Cabecera de la tabla -->
+      <ion-row>
+        <ion-col>Apertura</ion-col>
+        <ion-col>Fecha</ion-col>
+      </ion-row>
+      <!-- Filas de la tabla -->
+      <ion-row *ngFor="let log of listaLogs">
+        <ion-col>{{ log.apertura }}</ion-col>
+        <ion-col>{{ log.fecha }}</ion-col>
       </ion-row>
     </ion-grid>
   </ion-card-content>
