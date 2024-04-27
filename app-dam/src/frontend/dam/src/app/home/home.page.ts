@@ -4,7 +4,11 @@ import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
 //
-
+class LogRiego {
+  apertura!: number;
+  fecha!: string;
+  electrovalvulaId!: number;
+}
 
 @Component({
   selector: 'app-home',
@@ -16,11 +20,11 @@ export class HomePage implements OnInit {
 
   listaDispositivos: any[] = [];
   listaMediciones: any[] = [];
-  isLoading: boolean = false;
+    isLoading: boolean = false;
   mostrarGrafico: boolean = false;
   dispositvoSeleccionado!: number;
   abiertoElectrovalvula: boolean = false;
-
+  logRiego!: LogRiego;
   mostrarTablaMediciones = false;
   
   constructor(private servicio: DispositivoService, private http: HttpClient) {}
@@ -38,6 +42,7 @@ export class HomePage implements OnInit {
   }
 
   mostrarSensor(idDispositivo: number){
+    this.abiertoElectrovalvula = false;
     this.mostrarTablaMediciones = false; 
     this.dispositvoSeleccionado = idDispositivo;
     this.servicio.getMediciones().subscribe((data: any) => {
@@ -53,12 +58,44 @@ export class HomePage implements OnInit {
     console.log("mostrar grafico");
   }
 
-  switchElectrovalvula() {
+  switchElectrovalvula(idDispositivo: number) {
+   // `apertura` tinyint(4) DEFAULT NULL,
+  //`fecha` datetime DEFAULT NULL,
+  //`electrovalvulaId` int(11) NOT NULL
+  
     this.abiertoElectrovalvula = !this.abiertoElectrovalvula; // Cambiar el estado de la electrovalvula
     const estado = this.abiertoElectrovalvula ? 'abierto' : 'cerrado';
-    console.log(`Electrovalvula ${estado}`);
-
+    console.log(this.abiertoElectrovalvula);
+    let dispositivo = this.listaDispositivos.find(m => m.dispositivoId === idDispositivo);
+    let newFecha = new Date();
+    const fechaFormateada = this.formatDate(newFecha);
+    this.logRiego = {
+      apertura: this.abiertoElectrovalvula ? 1 : 0,
+      electrovalvulaId: dispositivo.electrovalvulaId,
+      fecha: fechaFormateada
+    }
+    this.servicio.agregarRegistroLogRiegos(this.logRiego.apertura, this.logRiego.fecha, this.logRiego.electrovalvulaId).subscribe({
+      next: () => {
+        console.log("Se guardo correctamente")
+        console.log(`Electrovalvula ${estado}`);
+      },
+      error: (error) => {
+        console.log("Error", error)
+      }
+    })
   }
+
+  formatDate(date: Date): string {
+    const day: string = String(date.getDate()).padStart(2, '0');
+    const month: string = String(date.getMonth() + 1).padStart(2, '0');
+    const year: string = String(date.getFullYear());
+    const hours: string = String(date.getHours()).padStart(2, '0');
+    const minutes: string = String(date.getMinutes()).padStart(2, '0');
+    const seconds: string = String(date.getSeconds()).padStart(2, '0');
+    //'2020-11-26 21:19:41'
+    return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+}
+
 
   verMediciones(idDispositivo: number) {
     this.dispositvoSeleccionado = idDispositivo;

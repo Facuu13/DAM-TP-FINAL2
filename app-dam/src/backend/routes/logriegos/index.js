@@ -30,7 +30,7 @@ routerLogRiegos.get('/:id', function (req, res) {
 // Método para agregar un nuevo registro de log de riego
 routerLogRiegos.put('/', function (req, res) {
     const { apertura, fecha, electrovalvulaId } = req.body;
-
+    console.log(req.body);
     // Verificar si los datos requeridos están presentes
     if (!apertura || !fecha || !electrovalvulaId) {
         res.status(400).send("Faltan campos requeridos");
@@ -45,7 +45,7 @@ routerLogRiegos.put('/', function (req, res) {
                 res.status(500).send(err.message);
                 return;
             }
-            res.status(201).send("Registro de log de riego agregado exitosamente");
+            res.status(200).send();
         });
 });
 
