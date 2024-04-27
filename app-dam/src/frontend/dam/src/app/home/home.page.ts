@@ -67,7 +67,8 @@ export class HomePage implements OnInit {
   }
 
   switchElectrovalvula(idDispositivo: number) {
-
+    this.mostrarTablaLog = false;
+    this.mostrarTablaMediciones = false; 
     this.abiertoElectrovalvula = !this.abiertoElectrovalvula; // Cambiar el estado de la electrovalvula
     const estado = this.abiertoElectrovalvula ? 'abierto' : 'cerrado';
     console.log(this.abiertoElectrovalvula);
@@ -115,7 +116,13 @@ export class HomePage implements OnInit {
 
   // Función para mostrar las mediciones en una tabla
 mostrarTablaM() {
-  this.mostrarTablaMediciones = true;
+  if(this.mostrarTablaMediciones){
+    this.mostrarTablaMediciones = false;
+  }
+  else{
+    this.mostrarTablaMediciones = true;
+  }
+  
 }
 
   verLogs(idDispositivo: number) {
@@ -129,7 +136,13 @@ mostrarTablaM() {
   }
 
   mostrarTablaLogRiegos() {
-    this.mostrarTablaLog = true;
+    if (this.mostrarTablaLog){
+      this.mostrarTablaLog = false
+    }
+    else{
+      this.mostrarTablaLog = true;
+    }
+    
   }
   
 
