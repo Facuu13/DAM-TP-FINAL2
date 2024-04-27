@@ -32,7 +32,7 @@ routerLogRiegos.put('/', function (req, res) {
     const { apertura, fecha, electrovalvulaId } = req.body;
     console.log(req.body);
     // Verificar si los datos requeridos están presentes
-    if (!apertura || !fecha || !electrovalvulaId) {
+    if (!fecha || !electrovalvulaId) {
         res.status(400).send("Faltan campos requeridos");
         return;
     }
