@@ -3,6 +3,11 @@ import { DispositivoService } from '../services/dispositivo.service';
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
+import * as Highcharts from 'highcharts';
+declare var require: any;
+require('highcharts/highcharts-more')(Highcharts);
+require('highcharts/modules/solid-gauge')(Highcharts);
+
 //
 class LogRiego {
   apertura!: number;
@@ -62,10 +67,7 @@ export class HomePage implements OnInit {
   }
 
   switchElectrovalvula(idDispositivo: number) {
-   // `apertura` tinyint(4) DEFAULT NULL,
-  //`fecha` datetime DEFAULT NULL,
-  //`electrovalvulaId` int(11) NOT NULL
-  
+
     this.abiertoElectrovalvula = !this.abiertoElectrovalvula; // Cambiar el estado de la electrovalvula
     const estado = this.abiertoElectrovalvula ? 'abierto' : 'cerrado';
     console.log(this.abiertoElectrovalvula);
@@ -101,6 +103,7 @@ export class HomePage implements OnInit {
 
 
   verMediciones(idDispositivo: number) {
+    this.mostrarTablaLog = false;
     this.dispositvoSeleccionado = idDispositivo;
     this.servicio.getMediciones().subscribe((data: any) => {
       this.listaMediciones = data;
@@ -116,6 +119,7 @@ mostrarTablaM() {
 }
 
   verLogs(idDispositivo: number) {
+    this.mostrarTablaMediciones = false; 
     let dispositivo = this.listaDispositivos.find(m => m.dispositivoId === idDispositivo);
     this.servicio.getLogs().subscribe((data: any) => {
       this.listaLogs = data;
