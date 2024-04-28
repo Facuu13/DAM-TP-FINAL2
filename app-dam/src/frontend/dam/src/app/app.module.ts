@@ -9,8 +9,10 @@ import { AppRoutingModule } from './app-routing.module';
 
 import { HttpClientModule } from '@angular/common/http';
 
+import { UppercasePipe } from './home/uppercase.pipe';
+
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, UppercasePipe ],
   imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, HttpClientModule],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
   bootstrap: [AppComponent],
