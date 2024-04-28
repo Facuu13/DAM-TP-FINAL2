@@ -27,4 +27,26 @@ routerMediciones.get('/:id', function (req, res) {
     });
 })
 
+// Método para agregar un nuevo valor en mediciones
+routerMediciones.post('/', function (req, res) {
+    const { fecha, valor, dispositivoId } = req.body;
+    console.log(req.body);
+    // Verificar si los datos requeridos están presentes
+    if (!fecha || !valor || !dispositivoId) {
+        res.status(400).send("Faltan campos requeridos");
+        return;
+    }
+
+    // Realizar la inserción en la base de datos
+    pool.query("INSERT INTO Mediciones (fecha, valor, dispositivoId) VALUES (?, ?, ?)", 
+        [fecha, valor, dispositivoId], 
+        function(err, result, fields) {
+            if (err) {
+                res.status(500).send(err.message);
+                return;
+            }
+            res.status(200).send();
+        });
+});
+
 module.exports = routerMediciones

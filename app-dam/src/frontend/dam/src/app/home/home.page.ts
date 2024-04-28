@@ -15,6 +15,13 @@ class LogRiego {
   electrovalvulaId!: number;
 }
 
+class Medicion {
+  fecha!: string;
+  valor!: string;
+  dispositivoId!: number;
+
+}
+
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
@@ -33,6 +40,7 @@ export class HomePage implements OnInit {
   logRiego!: LogRiego;
   mostrarTablaMediciones = false;
   mostrarTablaLog = false;
+  medicion!: Medicion;
   
   constructor(private servicio: DispositivoService, private http: HttpClient) {}
 
@@ -89,6 +97,22 @@ export class HomePage implements OnInit {
         console.log("Error", error)
       }
     })
+
+    if (this.abiertoElectrovalvula){
+      this.medicion = {
+        fecha: fechaFormateada,
+        valor: "97",
+        dispositivoId: idDispositivo
+      }
+      this.servicio.agregarValorMedicion(this.medicion.fecha,this.medicion.valor,this.medicion.dispositivoId).subscribe({
+        next: () => {
+          console.log("Se guardo correctamente")
+        },
+        error: (error) => {
+          console.log("Error", error)
+        }
+      })
+    }
   }
 
   formatDate(date: Date): string {
