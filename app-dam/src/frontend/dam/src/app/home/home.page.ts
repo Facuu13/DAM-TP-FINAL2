@@ -99,9 +99,10 @@ export class HomePage implements OnInit {
     })
 
     if (!this.abiertoElectrovalvula){
+      const numeroAleatorio = Math.floor(Math.random() * 100) + 1;
       this.medicion = {
         fecha: fechaFormateada,
-        valor: "97",
+        valor: numeroAleatorio.toString(),
         dispositivoId: idDispositivo
       }
       this.servicio.agregarValorMedicion(this.medicion.fecha,this.medicion.valor,this.medicion.dispositivoId).subscribe({
