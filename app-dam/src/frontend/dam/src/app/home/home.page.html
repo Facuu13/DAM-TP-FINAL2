@@ -15,7 +15,7 @@
 
   <div *ngIf="!isLoading else loadingTemplate"> 
     <div *ngFor="let dispositivo of listaDispositivos">
-      <ion-card (click)="mostrarSensor(dispositivo.dispositivoId)">
+      <ion-card (click)="goToDetail(dispositivo.dispositivoId)">
          <ion-card-header>
         <ion-card-title><ion-icon name="thermometer-outline"></ion-icon> {{dispositivo.nombre}}</ion-card-title>
            <ion-card-subtitle><ion-icon name="locate-outline"></ion-icon>
@@ -25,64 +25,6 @@
     </div>
   </div>
  
-  <ion-card >
-    <ion-card-header>
-      <!-- si o si tiene que estar a la vista el div este para que inicialice el highcharts sino da error-->
-      <div id="highcharts" style="width:100%; height:300px;"></div>
-    </ion-card-header>
-    <ion-card-content *ngIf="mostrarGrafico">
-      <ion-button (click)="switchElectrovalvula(dispositvoSeleccionado)" expand="block" fill="clear" shape="round">
-        {{ abiertoElectrovalvula ? 'Cerrar electrovavula' : 'Abrir electrovalvula' }}
-      </ion-button>
-     <ion-button (click)="verMediciones(dispositvoSeleccionado); mostrarTablaM()" expand="block" fill="clear" shape="round">
-      Ver todas las mediciones
-    </ion-button>
-     <ion-button (click)="verLogs(dispositvoSeleccionado); mostrarTablaLogRiegos()" expand="block" fill="clear" shape="round">
-      Ver los logs de Riegos
-    </ion-button>
-    </ion-card-content>
-  </ion-card>
-
- <!-- Mostrar tabla de mediciones si se activa la variable mostrarTablaMediciones -->
-<ion-card *ngIf="mostrarTablaMediciones">
-  <ion-card-content>
-    <ion-label>Tabla de Mediciones</ion-label>
-    <ion-grid>
-      <!-- Cabecera de la tabla -->
-      <ion-row>
-        <ion-col>Fecha</ion-col>
-        <ion-col>Medición</ion-col>
-      </ion-row>
-      <!-- Filas de la tabla -->
-      <ion-row *ngFor="let medicion of listaMediciones">
-        <ion-col>{{ medicion.fecha }}</ion-col>
-        <ion-col>{{ medicion.valor }}</ion-col>
-      </ion-row>
-    </ion-grid>
-  </ion-card-content>
-</ion-card>
-
-<!-- Mostrar tabla de log si se activa la variable mostrarTablaLog -->
-<ion-card *ngIf="mostrarTablaLog">
-  <ion-card-content>
-    <ion-label>Tabla de LogRiegos</ion-label>
-    <ion-grid>
-      <!-- Cabecera de la tabla -->
-      <ion-row>
-        <ion-col>Apertura</ion-col>
-        <ion-col>Fecha</ion-col>
-      </ion-row>
-      <!-- Filas de la tabla -->
-      <ion-row *ngFor="let log of listaLogs">
-        <ion-col>{{ log.apertura }}</ion-col>
-        <ion-col>{{ log.fecha }}</ion-col>
-      </ion-row>
-    </ion-grid>
-  </ion-card-content>
-</ion-card>
-
-
-
 </ion-content>
 
 <ng-template #loadingTemplate>
