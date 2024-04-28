@@ -98,7 +98,7 @@ export class HomePage implements OnInit {
       }
     })
 
-    if (this.abiertoElectrovalvula){
+    if (!this.abiertoElectrovalvula){
       this.medicion = {
         fecha: fechaFormateada,
         valor: "97",
