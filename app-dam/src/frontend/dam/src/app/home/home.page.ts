@@ -29,6 +29,9 @@ class Medicion {
 
 })
 export class HomePage implements OnInit {
+  private valorObtenido:number=0;
+  public myChart: any;
+  // private chartOptions: any;
 
   listaDispositivos: any[] = [];
   listaMediciones: any[] = [];
@@ -41,11 +44,104 @@ export class HomePage implements OnInit {
   mostrarTablaMediciones = false;
   mostrarTablaLog = false;
   medicion!: Medicion;
+
+  chartOptions: any ={
+    chart: {
+        type: 'gauge',
+        plotBackgroundColor: null,
+        plotBackgroundImage: null,
+        plotBorderWidth: 0,
+        plotShadow: false
+      }
+      ,title: {
+        text: ''
+      }
+
+      ,credits:{enabled:false}
+      
+         
+      ,pane: {
+          startAngle: -150,
+          endAngle: 150
+      } 
+      // the value axis
+    ,yAxis: {
+      min: 0,
+      max: 100,
+
+      minorTickInterval: 'auto',
+      minorTickWidth: 1,
+      minorTickLength: 10,
+      minorTickPosition: 'inside',
+      minorTickColor: '#666',
+
+      tickPixelInterval: 30,
+      tickWidth: 2,
+      tickPosition: 'inside',
+      tickLength: 10,
+      tickColor: '#666',
+      labels: {
+          step: 2,
+          rotation: 'auto'
+      },
+      title: {
+          text: 'kPA'
+      },
+      plotBands: [{
+          from: 0,
+          to: 10,
+          color: '#55BF3B' // green
+      }, {
+          from: 10,
+          to: 30,
+          color: '#DDDF0D' // yellow
+      }, {
+          from: 30,
+          to: 100,
+          color: '#DF5353' // red
+      }]
+  }
+  ,
+  series: [{
+      name: 'kPA',
+      data: [0],
+      tooltip: {
+          valueSuffix: ' kPA'
+      }
+  }]
+  };
   
-  constructor(private servicio: DispositivoService, private http: HttpClient) {}
+  constructor(private servicio: DispositivoService, private http: HttpClient) {
+  }
 
   ngOnInit(){
     this.listarDispositivos();
+    
+  }
+
+  ionViewDidEnter() {
+    this.generarChart();
+  }
+
+  updateChart(valorMedicion: number, nombreDispositivo: string){
+    console.log(valorMedicion)
+    // this.myChart.series[0].setData([valorMedicion]); //este data no le hace el update
+    this.myChart.update({
+      title:{
+              text: nombreDispositivo
+            },
+            series: [{
+              name: valorMedicion + ' kPA',
+        data: [valorMedicion], //este data no le hace el update
+        tooltip: {
+            valueSuffix: valorMedicion +' kPA'
+        },
+            }]
+    });
+  }
+
+  generarChart() {
+    this.myChart = Highcharts.chart('highcharts', this.chartOptions );
   }
 
   listarDispositivos(){
@@ -57,21 +153,19 @@ export class HomePage implements OnInit {
   }
 
   mostrarSensor(idDispositivo: number){
+    this.mostrarGrafico = false;
     this.abiertoElectrovalvula = false;
     this.mostrarTablaLog = false;
     this.mostrarTablaMediciones = false; 
     this.dispositvoSeleccionado = idDispositivo;
+    let dispositivo = this.listaDispositivos.find(m => m.dispositivoId === idDispositivo);
     this.servicio.getMediciones().subscribe((data: any) => {
       this.listaMediciones = data;
       this.listaMediciones = this.listaMediciones.filter(m => m.dispositivoId === idDispositivo);
       const ultimoElemento = this.listaMediciones[this.listaMediciones.length - 1];
-      console.log("el ultimo valor medido es: ",ultimoElemento.valor)
-      this.generarGrafico();
       this.mostrarGrafico = true;
+      this.updateChart(ultimoElemento.valor, dispositivo.nombre);
     });
-  }
-  generarGrafico() {
-    console.log("mostrar grafico");
   }
 
   switchElectrovalvula(idDispositivo: number) {
