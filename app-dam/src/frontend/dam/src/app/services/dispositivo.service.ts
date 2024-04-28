@@ -41,6 +41,6 @@ export class DispositivoService {
   // Método para enviar una solicitud PUT para agregar un registro en Log_Riegos
   agregarRegistroLogRiegos(apertura: number, fecha: string, electrovalvulaId: number): Observable<any> {
     const body = { apertura, fecha, electrovalvulaId };
-    return this._http.put('http://localhost:8000/logriegos', body);
+    return this._http.post('http://localhost:8000/logriegos', body);
   }
 }

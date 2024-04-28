@@ -28,7 +28,7 @@ routerLogRiegos.get('/:id', function (req, res) {
 })
 
 // Método para agregar un nuevo registro de log de riego
-routerLogRiegos.put('/', function (req, res) {
+routerLogRiegos.post('/', function (req, res) {
     const { apertura, fecha, electrovalvulaId } = req.body;
     console.log(req.body);
     // Verificar si los datos requeridos están presentes
